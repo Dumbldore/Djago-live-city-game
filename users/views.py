@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm
-
+from .models import Profile
 
 def register(request):
     if request.method == 'POST':
@@ -20,3 +20,10 @@ def register(request):
 @login_required
 def profile(request):
     return render(request, 'users/profile.html')
+
+
+def addpoints(request):
+    if request.GET.get('add_points') == 'add_points':
+        t = Profile.points.get(id=1)
+        t += 10
+        t.save()
