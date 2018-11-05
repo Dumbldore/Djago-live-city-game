@@ -9,8 +9,12 @@
           <h2 class="account-heading">{{ user.username }}</h2>
           <p class="text-secondary">{{ user.email }}</p>
             <p class="text-secondary">Twoja liczba punktów: {{ user.profile.points }}</p>
-            <button name="add_points" type="submit">+10 pkt</button>
-
+<div>
+            <form method="POST">
+                {% csrf_token %}
+            <input type="submit" class="btn" value="+10 pkt" name="mybtn"/>
+                </form>
+</div>
 
 
             <p class="text-secondary"> Twoja populacja: {{ user.profile.people }}</p>

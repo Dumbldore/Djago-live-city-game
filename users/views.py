@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm
 from .models import Profile
+from django.shortcuts import get_object_or_404
+
 
 def register(request):
     if request.method == 'POST':
@@ -22,8 +24,9 @@ def profile(request):
     return render(request, 'users/profile.html')
 
 
-def addpoints(request):
-    if request.GET.get('add_points') == 'add_points':
-        t = Profile.points.get(id=1)
-        t += 10
-        t.save()
+def add_points(request):
+        if request.GET.get('mybtn'):
+            profil = get_object_or_404(Profile, created_by=request.user)
+            profil.points += 10
+            profil.save(update_fields=["points"])
+            return render(request, 'users/profile.html')
