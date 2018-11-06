@@ -24,9 +24,17 @@ def profile(request):
     return render(request, 'users/profile.html')
 
 
-def add_points(request):
+def profile(request):
         if request.GET.get('mybtn'):
-            profil = get_object_or_404(Profile, created_by=request.user)
+            profil = get_object_or_404(Profile, user=request.user)
             profil.points += 10
             profil.save(update_fields=["points"])
+            messages.success(request, f'Account created for!')
+
             return render(request, 'users/profile.html')
+
+        else:
+            return render(request, 'users/profile.html')
+
+
+# Profile.objects.update(points=20)

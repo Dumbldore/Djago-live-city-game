@@ -10,9 +10,9 @@
           <p class="text-secondary">{{ user.email }}</p>
             <p class="text-secondary">Twoja liczba punktów: {{ user.profile.points }}</p>
 <div>
-            <form method="POST">
+            <form method="get">
                 {% csrf_token %}
-            <input type="submit" class="btn" value="+10 pkt" name="mybtn"/>
+            <input type="submit" class="button" value="+10 pkt" name="mybtn"/>
                 </form>
 </div>
 

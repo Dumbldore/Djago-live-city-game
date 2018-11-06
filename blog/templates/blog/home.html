@@ -1,6 +1,6 @@
 {% extends "blog/base.html" %}
 {% block content %}
-    {% for post in posts %}
+    <!--{% for post in posts %}
         <article class="media content-section">
   <div class="media-body">
     <div class="article-metadata">
@@ -10,6 +10,26 @@
     <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
     <p class="article-content">{{ post.content }}</p>
   </div>
+              {% endfor %}-->
+    <a class="nav-item nav-link" >Twoja liczba punktów: {{ user.profile.points }}</a>
+    <a class="nav-item nav-link" >Twoja ludnosc: {{ user.profile.people }}</a>
+        <form method="get">
+                {% csrf_token %}
+             <p class="article-content">Zakup blok przy ulicy Dworcowa 3</p>
+            <input type="submit" class="button" value="Kup" name="dworcowa3"/>
+                </form>
+    </br></br>
+      <form method="get">
+                {% csrf_token %}
+             <p class="article-content">Zakup blok przy ulicy Dworcowa 10</p>
+            <input type="submit" class="button" value="Kup" name="dworcowa10"/>
+                </form>
+    </br></br>
+      <form method="get">
+                {% csrf_token %}
+             <p class="article-content">Zakup blok przy ulicy Dworcowa 13</p>
+            <input type="submit" class="button" value="Kup" name="dworcowa13"/>
+                </form>
         </article>
-    {% endfor %}
+
 {% endblock content %}

@@ -1,0 +1,11 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <h1>Podaj kod</h1>
+    <div>
+            <form method="get">
+                {% csrf_token %}
+                 <input type="text" name="inputed_code"><br>
+            <input type="submit" class="button" value="Zatwierdz" name="btn"/>
+                </form>
+</div>
+{% endblock content %}
