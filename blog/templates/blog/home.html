@@ -27,17 +27,27 @@
     </br></br>
 
              <p class="article-content">Zakup blok przy ulicy Dworcowa 10</p>
+{% if admin.dworcowa10 == 0%}
     <form method="get">
                 {% csrf_token %}
             <input type="submit" class="button" value="Kup" name="dworcowa10"/>
                 </form>
+     {% else %}
+    <p class="article-content">Budynek już zakupiony</p>
+    {% endif %}
+
     </br></br>
 
              <p class="article-content">Zakup blok przy ulicy Dworcowa 13</p>
+{% if admin.dworcowa13 == 0%}
     <form method="get">
                 {% csrf_token %}
             <input type="submit" class="button" value="Kup" name="dworcowa13"/>
                 </form>
+     {% else %}
+    <p class="article-content">Budynek już zakupiony</p>
+    {% endif %}
+
         </article>
 
 {% endblock content %}
