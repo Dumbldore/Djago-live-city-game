@@ -13,21 +13,29 @@
               {% endfor %}-->
     <a class="nav-item nav-link" >Twoja liczba punktów: {{ user.profile.points }}</a>
     <a class="nav-item nav-link" >Twoja ludnosc: {{ user.profile.people }}</a>
-        <form method="get">
-                {% csrf_token %}
+
              <p class="article-content">Zakup blok przy ulicy Dworcowa 3</p>
+{% if admin.dworcowa3 == 0%}
+    <form method="get">
+                {% csrf_token %}
             <input type="submit" class="button" value="Kup" name="dworcowa3"/>
                 </form>
+    {% else %}
+    <p class="article-content">Budynek już zakupiony</p>
+    {% endif %}
+
     </br></br>
-      <form method="get">
-                {% csrf_token %}
+
              <p class="article-content">Zakup blok przy ulicy Dworcowa 10</p>
+    <form method="get">
+                {% csrf_token %}
             <input type="submit" class="button" value="Kup" name="dworcowa10"/>
                 </form>
     </br></br>
-      <form method="get">
-                {% csrf_token %}
+
              <p class="article-content">Zakup blok przy ulicy Dworcowa 13</p>
+    <form method="get">
+                {% csrf_token %}
             <input type="submit" class="button" value="Kup" name="dworcowa13"/>
                 </form>
         </article>
