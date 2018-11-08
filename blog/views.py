@@ -14,7 +14,13 @@ def about(request):
     return render(request, "blog/about.html", {"title": "About"})
 
 
-@background(schedule=1)
+SMALL_BUILDING_BUILD_TIME = 60 * 10  # sec
+BIG_BUILDING_BUILD_TIME = 60 * 30  # sec
+
+SMALL_BUILDING_GEN_INTERVAL = 60
+BIG_BUILDING_GEN_INTERVAL = 60 * 10
+
+@background(schedule=SMALL_BUILDING_BUILD_TIME)
 def background_gen_small_points(
     building_id, user_id, generated_people, generated_points
 ):
@@ -31,7 +37,7 @@ def background_gen_small_points(
     )
 
 
-@background(schedule=1)
+@background(schedule=BIG_BUILDING_BUILD_TIME)
 def background_gen_big_points(
     building_id, patrol_ids, generated_people, generated_points
 ):
@@ -110,7 +116,7 @@ def home(request):
                         user_id=profil.id,
                         generated_people=building.generate_people,
                         generated_points=building.generate_points,
-                        repeat=60,
+                        repeat=SMALL_BUILDING_GEN_INTERVAL,
                     )
                     return render(request, "blog/home.html", context)
                 else:
@@ -124,7 +130,7 @@ def home(request):
                 messages.warning(request, f"Budynek juz zbudowany")
                 return render(request, "blog/home.html")
             else:
-                if profil.points >= 500:
+                if profil.points >= bigbuilding.cost:
                     messages.success(
                         request, f"Brawo!, Dzieki Tobie odbudujemy Gdansk!"
                     )
@@ -132,14 +138,14 @@ def home(request):
                     bigbuilding.patrol += str(profil.user.id)
                     profil.built_buildings += bigbuilding.name
                     profil.number_of_built_buildings += 1
-                    profil.points -= 500
+                    profil.points -= bigbuilding.cost
                     if bigbuilding.how_much_built == bigbuilding.size:
                         background_gen_big_points(
                             building_id=bigbuilding.id,
                             patrol_ids=bigbuilding.patrol,
                             generated_people=bigbuilding.generate_people,
                             generated_points=bigbuilding.generate_points,
-                            repeat=60 * 10,
+                            repeat=BIG_BUILDING_GEN_INTERVAL,
                         )
                     profil.save()
                     bigbuilding.save()
