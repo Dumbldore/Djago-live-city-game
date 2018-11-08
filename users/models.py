@@ -23,7 +23,6 @@ class Building(models.Model):
     image = models.URLField()
     patrol = models.ForeignKey(Patrol, on_delete=models.CASCADE, blank=True, null=True)
     id = models.AutoField(primary_key=True)
-    date = models.DateTimeField()
 
     def __str__(self):
         return f'{self.name} Building {self.id}'
