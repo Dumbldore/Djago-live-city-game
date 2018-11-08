@@ -46,6 +46,7 @@ def home(request):
         'posts': Post.objects.all(),
         'patrol': get_object_or_404(Patrol, user=request.user)
     }
+    profil = get_object_or_404(Patrol, user=request.user)
     for each in Building.objects.all():
         building = each
         if request.GET.get(building.name):
@@ -53,17 +54,21 @@ def home(request):
                 messages.warning(request, f'Budynek juz zbudowany')
                 return render(request, 'blog/home.html')
             else:
-                profil = get_object_or_404(Patrol, user=request.user)
-                messages.success(request, f'Brawo!, zbudowales budynek')
-                building.built = 1
-                building.patrol = profil
-                profil.built_buildings += building.name
-                profil.number_of_built_buildings += 1
-                building.date=timezone.now()
-                profil.save()
-                building.save()
-                hello(profil.id, repeat=30)
-                return render(request, 'blog/home.html', context)
+                if profil.points > 100:
+                    messages.success(request, f'Brawo!, zbudowales budynek')
+                    building.built = 1
+                    building.patrol = profil
+                    profil.built_buildings += building.name
+                    profil.number_of_built_buildings += 1
+                    building.date=timezone.now()
+                    profil.points -= 100
+                    profil.save()
+                    building.save()
+                    hello(profil.id, repeat=30)
+                    return render(request, 'blog/home.html', context)
+                else:
+                    messages.warning(request, f'Masz za malo pieniedzy!')
+                    return render(request, 'blog/home.html')
 
     for each in Big_Building.objects.all():
         bigbuilding = each
