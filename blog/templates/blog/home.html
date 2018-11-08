@@ -1,6 +1,8 @@
 {% extends "blog/base.html" %}
 {% block content %}
-    <!--{% for post in posts %}
+
+
+   <!-- {% for post in posts %}
         <article class="media content-section">
   <div class="media-body">
     <div class="article-metadata">
@@ -11,42 +13,45 @@
     <p class="article-content">{{ post.content }}</p>
   </div>
               {% endfor %}-->
-    <a class="nav-item nav-link" >Twoja liczba punktów: {{ user.profile.points }}</a>
-    <a class="nav-item nav-link" >Twoja ludnosc: {{ user.profile.people }}</a>
 
-             <p class="article-content">Zakup blok przy ulicy Dworcowa 3</p>
-{% if admin.dworcowa3 == 0%}
+
+    <a class="nav-item nav-link" >Twoja liczba punktów: {{ user.patrol.points }}</a>
+    <a class="nav-item nav-link" >Twoja ludnosc: {{ user.patrol.people }}</a>
+
+
+    {% for building in buildings %}
+    <p class="article-content">Zbuduj {{ building.name }}
+
+    {% if building.built == 0 %}
+        <img class="img-thumbnail" src="https://cdn.theatlantic.com/assets/media/img/photo/2013/04/syria-in-ruins/s02_RTR3DAR3/main_1200.jpg?1420510255" ></p>
     <form method="get">
                 {% csrf_token %}
-            <input type="submit" class="button" value="Kup" name="dworcowa3"/>
+            <input type="submit" class="button" value={{ building.name }} name="{{ building.name }}"/>
                 </form>
     {% else %}
-    <p class="article-content">Budynek już zakupiony</p>
+        <img class="img-thumbnail" src="{{ building.image }}">
+    <p class="article-content">Budynek już zbudowany przez {{ building.patrol.user.username }} <img class="rounded-circle account-img" src="{{ building.patrol.image.url }}"></p>
     {% endif %}
+</br></br>
+    {% endfor %}
 
-    </br></br>
+    {% for bigbuilding in bigbuildings %}
+    <p class="article-content">Zbuduj {{ bigbuilding.name }}
 
-             <p class="article-content">Zakup blok przy ulicy Dworcowa 10</p>
-{% if admin.dworcowa10 == 0%}
+    {% if bigbuilding.how_much_built != bigbuilding.size %}
+        <img class="img-thumbnail" src="https://cdn.theatlantic.com/assets/media/img/photo/2013/04/syria-in-ruins/s02_RTR3DAR3/main_1200.jpg?1420510255" ></p>
+        <p class="article-content">Budynek wybudowany w {{ bigbuilding.how_much_built }}/{{ bigbuilding.size }}</p>
     <form method="get">
                 {% csrf_token %}
-            <input type="submit" class="button" value="Kup" name="dworcowa10"/>
+            <input type="submit" class="button" value={{ bigbuilding.name }} name="{{ bigbuilding.name }}"/>
                 </form>
-     {% else %}
-    <p class="article-content">Budynek już zakupiony</p>
+    {% else %}
+        <img class="img-thumbnail" src="{{ bigbuilding.image }}">
+    <p class="article-content">Budynek już zbudowany przez {{ bigbuilding.patrol }}</p>
     {% endif %}
+</br></br>
+    {% endfor %}
 
-    </br></br>
-
-             <p class="article-content">Zakup blok przy ulicy Dworcowa 13</p>
-{% if admin.dworcowa13 == 0%}
-    <form method="get">
-                {% csrf_token %}
-            <input type="submit" class="button" value="Kup" name="dworcowa13"/>
-                </form>
-     {% else %}
-    <p class="article-content">Budynek już zakupiony</p>
-    {% endif %}
 
         </article>
 
