@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm
-from .models import Profile
+from .models import Patrol
 from django.shortcuts import get_object_or_404
 
 
@@ -21,12 +21,17 @@ def register(request):
 
 @login_required
 def profile(request):
-    return render(request, 'users/profile.html')
+        if request.method == 'POST':
+            pic = request.FILES.get('myfile')
+            profile_obj = Patrol(image=pic).save()
+            return render(request, 'users/profile.html')
+        else:
+            return render(request, 'users/profile.html')
 
 
 def profile(request):
         if request.GET.get('mybtn'):
-            profil = get_object_or_404(Profile, user=request.user)
+            profil = get_object_or_404(Patrol, user=request.user)
             profil.points += 10
             profil.save(update_fields=["points"])
             messages.success(request, f'Account created for!')

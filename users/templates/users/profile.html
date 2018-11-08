@@ -3,12 +3,18 @@
 {% block content %}
     <div class="content-section">
       <div class="media">
+<form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="myfile" /><br/>
+        <input type="submit" name="submit" value="Upload" />
 
+</form>
+      </br></br>
         <div class="media-body">
-            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+            <img class="rounded-circle account-img" src="{{ user.patrol.image.url }}">
           <h2 class="account-heading">{{ user.username }}</h2>
           <p class="text-secondary">{{ user.email }}</p>
-            <p class="text-secondary">Twoja liczba punktów: {{ user.profile.points }}</p>
+            <p class="text-secondary">Twoja liczba punktów: {{ user.patrol.points }}</p>
 <div>
             <form method="get">
                 {% csrf_token %}
@@ -17,7 +23,7 @@
 </div>
 
 
-            <p class="text-secondary"> Twoja populacja: {{ user.profile.people }}</p>
+            <p class="text-secondary"> Twoja populacja: {{ user.patrol.people }}</p>
         </div>
       </div>
       <!-- FORM HERE -->
