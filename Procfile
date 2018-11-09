@@ -1,2 +1,2 @@
-web: python manage.py runserver
+web: gunicorn Projekt1.wsgi --log-file -
 worker: python manage.py process_tasks
