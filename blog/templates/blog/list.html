@@ -1,0 +1,72 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+
+    {#    <article class="media content-section">#}
+
+
+
+    <br>
+    <ul class="list-unstyled">
+
+        {% for building, shareholders, progress in buildings %}
+            <li class="card" style="margin-bottom: 2em;">
+                <div class="media card-body">
+                    <img class="mr-3" style="width: 100px; height: auto;" src="
+{% if progress.done %}
+{{ building.image }}
+{% else %}
+https://cdn.theatlantic.com/assets/media/img/photo/2013/04/syria-in-ruins/s02_RTR3DAR3/main_1200.jpg?1420510255
+{% endif %}
+"
+                         alt="Generic placeholder image">
+                    <div class="media-body">
+                        <h5 class="mt-0">{{ building.name }} <span class="badge badge-success">{% if progress.done %}
+                            Zbudowany{% endif %}</span></h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">kosztuje {{ building.cost }} guldenów</li>
+                            <li class="list-group-item">generuje {{ building.generate_points }} guldenów</li>
+                            <li class="list-group-item">generuje {{ building.generate_people }} ludności</li>
+                            <li class="list-group-item">posiadacze ({{ progress.shares }}/{{ progress.max_shares }})
+                                {% for patrol in progress.shareholders %}
+                                    {{ patrol }}
+                                {% endfor %}
+                            </li>
+                        </ul>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100"></div>
+                            {% if progress.done %}
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
+                                     aria-valuenow="100"
+                                     aria-valuemin="0" aria-valuemax="100"></div>
+                            {% else %}
+                                <div class="progress-bar bg-info" role="progressbar"
+                                     style="width: {{ progress.shares_percent }}%"
+                                     aria-valuenow="{{ progress.shares_percent }}" aria-valuemin="0"
+                                     aria-valuemax="100"></div>
+                            {% endif %}
+                        </div>
+                        <br>
+                        {% if progress.can_buy %}
+                            <form method="post">
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary" value="{{ building.id }}"
+                                            name="buy_building">Zapłać {{ building.share_cost }}</button>
+                                    <small class="form-text text-muted">pozostało {{ progress.shares_left }}</small>
+                                </div>
+                            </form>
+                        {% else %}
+                            <p class="text-muted">wszystko zbudowane</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+
+
+{% endblock content %}

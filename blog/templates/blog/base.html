@@ -31,9 +31,9 @@
                     <a class="nav-item nav-link" href="{% url 'blog-home' %}">Strona główna</a>
                     <a class="nav-item nav-link" href="{% url 'blog-kod' %}">Podaj kod</a>
                     <span class="navbar-text"><span
-                            class="badge badge-success">Twoje guldeny: {{ user.patrol.points }}</span>&nbsp;</span>
+                            class="badge badge-success">Twoje guldeny: {{ user.patrol2.money | floatformat }}</span>&nbsp;</span>
                     <span class="navbar-text"><span
-                            class="badge badge-info">Twoja ludność: {{ user.patrol.people }}</span>&nbsp;</span>
+                            class="badge badge-info">Twoja ludność: {{ user.patrol2.people | floatformat }}</span>&nbsp;</span>
                 </div>
                 <!-- Navbar Right Side -->
                 <div class="navbar-nav">
@@ -60,6 +60,20 @@
                     </div>
                 {% endfor %}
             {% endif %}
+
+            {% block stats %}
+                {#    TODO: patrol2 #}
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        {{ user.patrol2.name }}
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{ user.patrol2.money | floatformat }} guldeny</li>
+                        <li class="list-group-item">{{ user.patrol2.people | floatformat }} ludność</li>
+                    </ul>
+                </div>
+            {% endblock %}
+
             {% block content %}{% endblock %}
         </div>
         <!-- <div class="col-md-4">

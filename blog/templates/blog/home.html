@@ -38,7 +38,7 @@
                     <input type="submit" class="button" value={{ building.name }} name="{{ building.name }}"/>
                 </form>
             {% else %}
-                <img class="img-thumbnail" src="{{ building.image }}">
+                <img class="img-thumbnail rounded" style="height: 200px" src="{{ building.image }}">
                 <p class="article-content">Budynek już zbudowany przez {{ building.patrol.user.username }} <img
                         class="rounded-circle sm-account-img" src="{{ building.patrol.image.url }}"></p>
             {% endif %}

@@ -1,6 +1,21 @@
 from django.core.management.base import BaseCommand
 from city.models import BonusCode
 
+
+class Command(BaseCommand):
+    args = ""
+    help = "Populates db with codes"
+
+    def _create_tags(self):
+        for code, value in CODES:
+            bonus_code = BonusCode(code=code, value=value)
+            bonus_code.save()
+            print(bonus_code)
+
+    def handle(self, *args, **options):
+        self._create_tags()
+
+
 CODES = [
     ("Blechtrommel", 3400),
     ("Kleinhammer", 3400),
@@ -71,17 +86,3 @@ CODES = [
     ("sehr", 1500),
     ("hier", 1500),
 ]
-
-
-class Command(BaseCommand):
-    args = ""
-    help = "Populates db with codes"
-
-    def _create_tags(self):
-        for code, value in CODES:
-            bonus_code = BonusCode(code=code, value=value)
-            bonus_code.save()
-            print(bonus_code)
-
-    def handle(self, *args, **options):
-        self._create_tags()

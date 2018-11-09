@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime, timezone
 
 
 class Rule(models.Model):
@@ -12,12 +13,12 @@ class Patrol2(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default="default.jpg", upload_to="profile_pics")
 
-    money = models.PositiveIntegerField("Guldeny", default=0)
-    people = models.PositiveIntegerField("Ludność", default=0)
-    number_of_built_buildings = models.PositiveIntegerField(default=0)
+    money = models.FloatField("Guldeny", default=0)
+    people = models.FloatField("Ludność", default=0)
+    # number_of_built_buildings = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return f"{self.user.username} Profile {self.id}"
+        return self.name
 
 
 class Building(models.Model):
@@ -32,9 +33,12 @@ class Building(models.Model):
     )
     image = models.URLField(blank=True, null=True)
 
-    cost = models.PositiveIntegerField("Koszt budowy budynku w guldenach", default=100)
-    generate_people = models.PositiveIntegerField("Przychód guldenów", default=1)
-    generate_points = models.PositiveIntegerField("Wzrost ludności", default=1)
+    cost = models.FloatField("Koszt budowy budynku w guldenach", default=100)
+    generate_points = models.FloatField("Przychód guldenów", default=1)
+    generate_people = models.FloatField("Wzrost ludności", default=1)
+
+    datetime_build_started = models.DateTimeField("Czas rozpoczęcia budowy", null=True)
+    # build_time = models.PositiveIntegerField("Czas budowy w sekundach", default=600)
 
     max_shares = models.PositiveIntegerField(
         "Maksymalna liczba patroli mogąca zbudować budynek", default=1
@@ -42,6 +46,28 @@ class Building(models.Model):
 
     def __str__(self):
         return self.name
+
+    def is_built(self):
+        # print(self.datetime_build_started, datetime.now())
+        return (
+            self.datetime_build_started is not None
+            and self.datetime_build_started < datetime.now(tz=timezone.utc)
+        )
+
+    def can_buy(self):
+        return self.max_shares > self.share_set.count()
+
+    def buy_share_for(self, patrol: Patrol2):
+        assert patrol.money > self.share_cost
+
+        patrol.money -= self.share_cost
+        share = Share(patrol=patrol, building=self)
+        patrol.save()
+        share.save()
+
+    @property
+    def share_cost(self):
+        return self.cost / self.max_shares
 
 
 class Share(models.Model):

@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from users.models import Patrol
 from users.models import Building
 from users.models import Big_Building
+from city.models import BonusCode, UsedBonusCode, Patrol2
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from background_task import background
@@ -62,32 +63,42 @@ def background_gen_big_points(
         print("Not built")
 
 
+@login_required
 def kod(request):
     """
     Pozwala użytwkownikowi wpisać, który daje mu jakiś benefit
     """
-    codes = {"polska": 200, "usa": 100}
+    patrol = get_object_or_404(Patrol2, user=request.user)
 
     if request.GET.get("btn"):
-        profil = get_object_or_404(Patrol, user=request.user)
         requested_code = request.GET.get("inputed_code")
 
-        used_codes = list(map(lambda s: s.strip(), str(profil.usedcodes).split(",")))
-
-        if requested_code in codes and requested_code not in used_codes:
-            messages.success(request, f"Prawidlowy kod!!")
-            profil.points += codes[requested_code]
-            profil.usedcodes += "," + requested_code
+        try:
+            bonus_code = BonusCode.objects.get(code=requested_code)
+        except BonusCode.DoesNotExist:
+            messages.warning(request, f"Podano błędny kod")
         else:
-            messages.warning(request, f"Zly kod!!")
+            if UsedBonusCode.objects.filter(
+                patrol=patrol, bonus_code=bonus_code
+            ).exists():
+                messages.warning(
+                    request, f"Podano kod został wykorzystany przez {patrol}"
+                )
+            else:
+                patrol.money += bonus_code.value
+                used_code = UsedBonusCode(patrol=patrol, bonus_code=bonus_code)
+                patrol.save()
+                used_code.save()
 
-        profil.save(update_fields=["points", "usedcodes"])
-        return render(request, "blog/kod.html")
+                messages.success(request, f"Dodano {bonus_code.value}")
 
-    else:
-        return render(request, "blog/kod.html")
+    queryset = UsedBonusCode.objects.filter(patrol=patrol)
+    used_codes = [c.bonus_code for c in queryset]
+
+    return render(request, "blog/kod.html", {"used_bonus_codes": used_codes})
 
 
+@login_required
 def home(request):
     context = {
         "buildings": Building.objects.all(),

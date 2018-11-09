@@ -1,0 +1,30 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <h1>Budynek {{ building.name }} <span class="badge badge-success">{% if progress.done %}Zbudowany{% endif %}</span></h1>
+    <p>Koszt {{ building.cost }} guldenów</p>
+
+    <p>Przychód: {{ building.generate_points }} guldenów</p>
+    <p>Wzrost: {{ building.generate_people }} mieszkańców</p>
+
+    <p>Posiadane przez:</p>
+    <ul>
+        {% for patrol in shareholders %}
+            <li>{{ patrol }}</li>
+        {% endfor %}
+    </ul>
+
+    <img class="img-thumbnail rounded" style="height: 200px" src="{{ building.image }}">
+
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0"
+             aria-valuemax="100"></div>
+        {% if progress.done %}
+            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100"
+                 aria-valuemin="0" aria-valuemax="100"></div>
+        {% else %}
+            <div class="progress-bar bg-info" role="progressbar" style="width: {{ progress.shares_percent }}%"
+                 aria-valuenow="{{ progress.shares_percent }}" aria-valuemin="0"
+                 aria-valuemax="100"></div>
+        {% endif %}
+    </div>
+{% endblock content %}

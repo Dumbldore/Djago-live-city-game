@@ -37,6 +37,7 @@ urlpatterns = [
         name="logout",
     ),
     path("", include("blog.urls")),
+    path("city/", include("city.urls")),
 ]
 
 if settings.DEBUG:
