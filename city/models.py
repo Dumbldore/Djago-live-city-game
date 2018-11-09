@@ -37,7 +37,7 @@ class Building(models.Model):
     generate_points = models.FloatField("Przychód guldenów", default=1)
     generate_people = models.FloatField("Wzrost ludności", default=1)
 
-    datetime_build_started = models.DateTimeField("Czas rozpoczęcia budowy", null=True)
+    datetime_build_started = models.DateTimeField("Czas rozpoczęcia budowy", null=True, blank=True)
     # build_time = models.PositiveIntegerField("Czas budowy w sekundach", default=600)
 
     max_shares = models.PositiveIntegerField(
