@@ -63,39 +63,7 @@ def background_gen_big_points(
         print("Not built")
 
 
-@login_required
-def kod(request):
-    """
-    Pozwala użytwkownikowi wpisać, który daje mu jakiś benefit
-    """
-    patrol = get_object_or_404(Patrol2, user=request.user)
 
-    if request.GET.get("btn"):
-        requested_code = request.GET.get("inputed_code")
-
-        try:
-            bonus_code = BonusCode.objects.get(code=requested_code)
-        except BonusCode.DoesNotExist:
-            messages.warning(request, f"Podano błędny kod")
-        else:
-            if UsedBonusCode.objects.filter(
-                patrol=patrol, bonus_code=bonus_code
-            ).exists():
-                messages.warning(
-                    request, f"Podano kod został wykorzystany przez {patrol}"
-                )
-            else:
-                patrol.money += bonus_code.value
-                used_code = UsedBonusCode(patrol=patrol, bonus_code=bonus_code)
-                patrol.save()
-                used_code.save()
-
-                messages.success(request, f"Dodano {bonus_code.value}")
-
-    queryset = UsedBonusCode.objects.filter(patrol=patrol)
-    used_codes = [c.bonus_code for c in queryset]
-
-    return render(request, "blog/kod.html", {"used_bonus_codes": used_codes})
 
 
 @login_required
