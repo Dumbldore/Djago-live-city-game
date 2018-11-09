@@ -72,7 +72,7 @@ def kod(request):
     """
     patrol = get_object_or_404(Patrol, user=request.user)
 
-    if request.GET.get("btn"):
+    if request.GET.get("btn") and request.user.is_authenticated():
         requested_code = request.GET.get("inputed_code")
 
         try:

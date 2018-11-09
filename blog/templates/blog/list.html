@@ -53,8 +53,10 @@ https://cdn.theatlantic.com/assets/media/img/photo/2013/04/syria-in-ruins/s02_RT
                             <form method="post">
                                 <div class="form-group">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-primary" value="{{ building.id }}"
-                                            name="buy_building">Zapłać {{ building.share_cost }}</button>
+                                    {% if user.is_authenticated %}
+                                        <button type="submit" class="btn btn-primary" value="{{ building.id }}"
+                                                name="buy_building">Zapłać {{ building.share_cost }}</button>
+                                    {% endif %}
                                     <small class="form-text text-muted">pozostało {{ progress.shares_left }}</small>
                                 </div>
                             </form>
