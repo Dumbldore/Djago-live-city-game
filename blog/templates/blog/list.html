@@ -12,14 +12,15 @@
         {% for building, shareholders, progress in buildings %}
             <li class="card" style="margin-bottom: 2em;">
                 <div class="media card-body">
-                    <img class="mr-3" style="width: 100px; height: auto;" src="
+
+                        <img class="mr-3" style="width: 100px; height: auto;" src="
 {% if progress.done %}
 {{ building.image }}
 {% else %}
 https://cdn.theatlantic.com/assets/media/img/photo/2013/04/syria-in-ruins/s02_RTR3DAR3/main_1200.jpg?1420510255
 {% endif %}
 "
-                         alt="Generic placeholder image">
+                             alt="">
                     <div class="media-body">
                         <h5 class="mt-0">{{ building.name }} <span class="badge badge-success">{% if progress.done %}
                             Zbudowany{% endif %}</span></h5>
@@ -27,7 +28,7 @@ https://cdn.theatlantic.com/assets/media/img/photo/2013/04/syria-in-ruins/s02_RT
                             <li class="list-group-item">kosztuje {{ building.cost }} guldenów</li>
                             <li class="list-group-item">generuje {{ building.generate_points }} guldenów</li>
                             <li class="list-group-item">generuje {{ building.generate_people }} ludności</li>
-                            <li class="list-group-item">posiadacze ({{ progress.shares }}/{{ progress.max_shares }})
+                            <li class="list-group-item">posiadacze <a href="{% url 'city-building' building_id=building.id %}">({{ progress.shares }}/{{ progress.max_shares }})</a>
                                 {% for patrol in progress.shareholders %}
                                     {{ patrol }}
                                 {% endfor %}

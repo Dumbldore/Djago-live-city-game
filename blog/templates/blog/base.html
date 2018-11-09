@@ -12,9 +12,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
 
     {% if title %}
-        <title>Django Blog - {{ title }}</title>
+        <title>TRASA V - {{ title }}</title>
     {% else %}
-        <title>Django Blog </title>
+        <title>TRASA V </title>
     {% endif %}
 </head>
 <body>
@@ -63,7 +63,7 @@
 
             {% block stats %}
                 {#    TODO: patrol2 #}
-                <div class="card" style="width: 18rem;">
+                <div class="card" style="width: 18rem; margin-bottom: 2em;">
                     <div class="card-header">
                         {{ user.patrol2.name }}
                     </div>
