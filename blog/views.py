@@ -20,6 +20,7 @@ BIG_BUILDING_BUILD_TIME = 60 * 30  # sec
 SMALL_BUILDING_GEN_INTERVAL = 60
 BIG_BUILDING_GEN_INTERVAL = 60 * 10
 
+
 @background(schedule=SMALL_BUILDING_BUILD_TIME)
 def background_gen_small_points(
     building_id, user_id, generated_people, generated_points
@@ -70,6 +71,7 @@ def kod(request):
     if request.GET.get("btn"):
         profil = get_object_or_404(Patrol, user=request.user)
         requested_code = request.GET.get("inputed_code")
+
         used_codes = list(map(lambda s: s.strip(), str(profil.usedcodes).split(",")))
 
         if requested_code in codes and requested_code not in used_codes:

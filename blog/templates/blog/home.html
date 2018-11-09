@@ -2,7 +2,7 @@
 {% block content %}
 
 
-   <!-- {% for post in posts %}
+    <!-- {% for post in posts %}
         <article class="media content-section">
   <div class="media-body">
     <div class="article-metadata">
@@ -15,49 +15,60 @@
               {% endfor %}-->
 
 
-    <a class="nav-item nav-link" >Twoja liczba punktów: {{ user.patrol.points }}</a>
-    <a class="nav-item nav-link" >Twoja ludnosc: {{ user.patrol.people }}</a>
+    <a class="nav-item nav-link">Twoja liczba punktów: {{ user.patrol.points }}</a>
+    <a class="nav-item nav-link">Twoja ludnosc: {{ user.patrol.people }}</a>
 
-</br> </br>
+    </br> </br>
+    </br></br>
 
-    {% for building in buildings %}
+    <ul class="list-group">
+        {% for building in buildings %}
+            <li class="list-group-item">
 
-        <p class="article-content">{{ building.name }} koszt - {{ building.cost }} </p>
-       <p class="article-content"> Generuje {{ building.generate_people }} Polaków oraz {{ building.generate_points }} pieniążków</p>
+            <p class="article-content">{{ building.name }} koszt - {{ building.cost }} </p>
+            <p class="article-content"> Generuje {{ building.generate_people }} Polaków
+                oraz {{ building.generate_points }} pieniążków</p>
 
-    {% if building.built == 0 %}
-        <img class="img-thumbnail" src="https://cdn.theatlantic.com/assets/media/img/photo/2013/04/syria-in-ruins/s02_RTR3DAR3/main_1200.jpg?1420510255" ></p>
-    <form method="get">
-                {% csrf_token %}
-            <input type="submit" class="button" value={{ building.name }} name="{{ building.name }}"/>
+            {% if building.built == 0 %}
+                <img class="img-thumbnail rounded" style="height: 200px"
+                     src="https://cdn.theatlantic.com/assets/media/img/photo/2013/04/syria-in-ruins/s02_RTR3DAR3/main_1200.jpg?1420510255">
+                </p>
+                <form method="get">
+                    {% csrf_token %}
+                    <input type="submit" class="button" value={{ building.name }} name="{{ building.name }}"/>
                 </form>
-    {% else %}
-        <img class="img-thumbnail" src="{{ building.image }}">
-    <p class="article-content">Budynek już zbudowany przez {{ building.patrol.user.username }} <img class="rounded-circle account-img" src="{{ building.patrol.image.url }}"></p>
-    {% endif %}
-</br></br>
+            {% else %}
+                <img class="img-thumbnail" src="{{ building.image }}">
+                <p class="article-content">Budynek już zbudowany przez {{ building.patrol.user.username }} <img
+                        class="rounded-circle sm-account-img" src="{{ building.patrol.image.url }}"></p>
+            {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
 
-    {% endfor %}
 
     {% for bigbuilding in bigbuildings %}
 
-<p class="article-content">{{ bigbuilding.name }} koszt - {{ bigbuilding.cost }} </p>
-       <p class="article-content"> Generuje {{ bigbuilding.generate_people }} Polaków oraz {{ bigbuilding.generate_points }} pieniążków na kazdy wklad</p>
-    {% if bigbuilding.how_much_built != bigbuilding.size %}
-        <img class="img-thumbnail" src="https://cdn.theatlantic.com/assets/media/img/photo/2013/04/syria-in-ruins/s02_RTR3DAR3/main_1200.jpg?1420510255" ></p>
-        <p class="article-content">Budynek wybudowany w {{ bigbuilding.how_much_built }}/{{ bigbuilding.size }}</p>
-    <form method="get">
+        <p class="article-content">{{ bigbuilding.name }} koszt - {{ bigbuilding.cost }} </p>
+        <p class="article-content"> Generuje {{ bigbuilding.generate_people }} Polaków
+            oraz {{ bigbuilding.generate_points }} pieniążków na kazdy wklad</p>
+        {% if bigbuilding.how_much_built != bigbuilding.size %}
+            <img class="img-thumbnail"
+                 src="https://cdn.theatlantic.com/assets/media/img/photo/2013/04/syria-in-ruins/s02_RTR3DAR3/main_1200.jpg?1420510255">
+            </p>
+            <p class="article-content">Budynek wybudowany w {{ bigbuilding.how_much_built }}/{{ bigbuilding.size }}</p>
+            <form method="get">
                 {% csrf_token %}
-            <input type="submit" class="button" value={{ bigbuilding.name }} name="{{ bigbuilding.name }}"/>
-                </form>
-    {% else %}
-        <img class="img-thumbnail" src="{{ bigbuilding.image }}">
-    <p class="article-content">Budynek już zbudowany przez {{ bigbuilding.patrol }}</p>
-    {% endif %}
-</br></br>
+                <input type="submit" class="button" value={{ bigbuilding.name }} name="{{ bigbuilding.name }}"/>
+            </form>
+        {% else %}
+            <img class="img-thumbnail rounded" style="height: 200px" src="{{ bigbuilding.image }}">
+            <p class="article-content">Budynek już zbudowany przez {{ bigbuilding.patrol }}</p>
+        {% endif %}
+        </br></br>
     {% endfor %}
 
 
-        </article>
+    </article>
 
 {% endblock content %}
