@@ -65,7 +65,7 @@
                     </div>
                 {% endfor %}
             {% endif %}
-
+    {% if request.user.is_authenticated %}
             {% block stats %}
                 {#    TODO: patrol2 #}
                 <div class="card" style="width: 18rem; margin-bottom: 2em;">
@@ -78,6 +78,7 @@
                     </ul>
                 </div>
             {% endblock %}
+            {% endif %}
 
             {% block content %}{% endblock %}
         </div>
