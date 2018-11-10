@@ -14,6 +14,8 @@
 {#                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to#}
 {#                        additional content. This content is a little bit longer.</p>#}
                     <a href="{% url "city-building" building_id=building.id %}" class="card-link">Detale</a>
+                    <a href="#"><span class="badge badge-success">{% if building.is_built %}
+                            Zbudowany{% endif %}</span></a>
                 </div>
             </div>
         {% endfor %}
