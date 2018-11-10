@@ -4,7 +4,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Sum
 
 def progress(b):
     s = b.shareholders.all()
@@ -42,7 +42,6 @@ def building_detail(request, building_id):
 
 
 def building_list(request):
-
     buy_building_id = request.POST.get("buy_building")
     if buy_building_id:
         building = Building.objects.get(id=buy_building_id)
@@ -65,6 +64,7 @@ def building_list(request):
         },
     )
 
+
 @login_required
 def kod(request):
     """
@@ -81,7 +81,7 @@ def kod(request):
             messages.warning(request, f"Podano błędny kod")
         else:
             if UsedBonusCode.objects.filter(
-                patrol=patrol, bonus_code=bonus_code
+                    patrol=patrol, bonus_code=bonus_code
             ).exists():
                 messages.warning(
                     request, f"Podano kod został wykorzystany przez {patrol}"
@@ -98,3 +98,14 @@ def kod(request):
     used_codes = [c.bonus_code for c in queryset]
 
     return render(request, "blog/kod.html", {"used_bonus_codes": used_codes})
+
+
+def stats(request):
+    total = Building.objects.count()
+    built = sum(1 for b in Building.objects.all() if b.is_built())
+
+    city_built_percent = built / total * 100
+
+    total_ppl = Patrol.objects.aggregate(total_ppl=Sum('people'))["total_ppl"]
+
+    return render(request, "blog/stats.html", {"city_built_percent": city_built_percent, "total_ppl": int(total_ppl)})
