@@ -130,4 +130,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 LOGIN_REDIRECT_URL = "city-home"
 LOGIN_URL = "login"
 
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
+
 django_heroku.settings(locals())
