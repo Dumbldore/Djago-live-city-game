@@ -47,10 +47,10 @@ def background_generate_resources(patrol_id):
         if share.building.is_built():
             # logger.info(share.building.name, share.building.generate_points)
             money_generated += (
-                share.building.generate_points / share.building.max_shares
+                share.building.generate_points
             )
             people_generated += (
-                share.building.generate_people / share.building.max_shares
+                share.building.generate_people
             )
         else:
             logger.info(f"{share.building.name} not built")
