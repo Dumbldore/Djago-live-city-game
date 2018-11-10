@@ -65,19 +65,25 @@
                     </div>
                 {% endfor %}
             {% endif %}
+                                                    {% if request.user.is_authenticated %}
 
             {% block stats %}
+
                 {#    TODO: patrol2 #}
                 <div class="card" style="width: 18rem; margin-bottom: 2em;">
+
                     <div class="card-header">
                         <a href="{% url 'city-patrol' patrol_id=user.patrol2.id %}">{{ user.patrol2.name }}</a>
                     </div>
+
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">{{ user.patrol2.money | floatformat }} guldeny</li>
                         <li class="list-group-item">{{ user.patrol2.people | floatformat }} ludność</li>
                     </ul>
                 </div>
+
             {% endblock %}
+                                                    {% endif %}
 
             {% block content %}{% endblock %}
         </div>
