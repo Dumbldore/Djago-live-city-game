@@ -2,10 +2,24 @@
 {% block content %}
     <h1>Podaj kod</h1>
     <div>
-            <form method="get">
-                {% csrf_token %}
-                 <input type="text" name="inputed_code"><br>
-            <input type="submit" class="button" value="Zatwierdz" name="btn"/>
-                </form>
-</div>
+        <form method="get">
+            {% csrf_token %}
+            <div class="form-group">
+{#                <label for="inputed_code">Email address</label>#}
+                <input type="text" class="form-control" name="inputed_code">
+                <small id="kodHelp" class="form-text text-muted">Z uwzględnieniem wielkości liter</small>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary button" value="Zatwierdz" name="btn"/>
+            </div>
+        </form>
+    </div>
+
+    <h2>Wykorzystane kody</h2>
+    <p>
+        {% for bonus_code in used_bonus_codes %}
+            <span class="badge badge-secondary" data-toggle="tooltip" data-placement="top"
+                  title="{{ bonus_code.value }}">{{ bonus_code.code }}</span>
+        {% endfor %}
+    </p>
 {% endblock content %}

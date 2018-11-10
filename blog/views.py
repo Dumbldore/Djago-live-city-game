@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from users.models import Patrol
 from users.models import Building
 from users.models import Big_Building
+from city.models import BonusCode, UsedBonusCode, Patrol2
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from background_task import background
@@ -19,6 +20,7 @@ BIG_BUILDING_BUILD_TIME = 60 * 30  # sec
 
 SMALL_BUILDING_GEN_INTERVAL = 60
 BIG_BUILDING_GEN_INTERVAL = 60 * 10
+
 
 @background(schedule=SMALL_BUILDING_BUILD_TIME)
 def background_gen_small_points(
@@ -61,31 +63,10 @@ def background_gen_big_points(
         print("Not built")
 
 
-def kod(request):
-    """
-    Pozwala użytwkownikowi wpisać, który daje mu jakiś benefit
-    """
-    codes = {"polska": 200, "usa": 100}
-
-    if request.GET.get("btn"):
-        profil = get_object_or_404(Patrol, user=request.user)
-        requested_code = request.GET.get("inputed_code")
-        used_codes = list(map(lambda s: s.strip(), str(profil.usedcodes).split(",")))
-
-        if requested_code in codes and requested_code not in used_codes:
-            messages.success(request, f"Prawidlowy kod!!")
-            profil.points += codes[requested_code]
-            profil.usedcodes += "," + requested_code
-        else:
-            messages.warning(request, f"Zly kod!!")
-
-        profil.save(update_fields=["points", "usedcodes"])
-        return render(request, "blog/kod.html")
-
-    else:
-        return render(request, "blog/kod.html")
 
 
+
+@login_required
 def home(request):
     context = {
         "buildings": Building.objects.all(),

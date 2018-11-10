@@ -1,0 +1,33 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <h1>{{ patrol.name }}</h1>
+    <h1 class="display-1">{{ patrol.people | floatformat }}
+        <small>osób</small>
+    </h1>
+    <h2>Zbudowane budynki</h2>
+    <div class="card-columns">
+        {% for building in buildings %}
+            <div class="card">
+                <img class="card-img-top" src="{{ building.image }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ building.name }}</h5>
+{#                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to#}
+{#                        additional content. This content is a little bit longer.</p>#}
+                    <a href="{% url "city-building" building_id=building.id %}" class="card-link">Detale</a>
+                    <a href="#"><span class="badge badge-success">{% if building.is_built %}
+                            Zbudowany{% endif %}</span></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{#    <h2>Wykorzystane kody</h2>#}
+{#    <p>#}
+{#        {% for bonus_code in used_bonus_codes %}#}
+{#            <span class="badge badge-secondary" data-toggle="tooltip" data-placement="top"#}
+{#                  title="{{ bonus_code.value }}">{{ bonus_code.code }}</span>#}
+{#        {% endfor %}#}
+{#    </p>#}
+{% endblock content %}
+
+
