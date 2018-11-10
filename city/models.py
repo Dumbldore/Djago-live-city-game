@@ -17,6 +17,26 @@ class Patrol2(models.Model):
     people = models.FloatField("Ludność", default=0)
     # number_of_built_buildings = models.PositiveIntegerField(default=0)
 
+
+    @property
+    def rates(self):
+        shares = self.share_set.all()
+        money_generated = 0
+        people_generated = 0
+
+        for share in shares:
+            if share.building.is_built():
+                # logger.info(share.building.name, share.building.generate_points)
+                money_generated += (
+                    share.building.generate_points
+                )
+                people_generated += (
+                    share.building.generate_people
+                )
+        return {"money": money_generated, "ppl": people_generated}
+
+
+
     def __str__(self):
         return self.name
 

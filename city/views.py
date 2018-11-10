@@ -114,4 +114,17 @@ def stats(request):
 def patrol_detail(request, patrol_id):
     patrol = Patrol.objects.get(id=patrol_id)
     buildings = set(s.building for s in patrol.share_set.all())
-    return render(request, "blog/patrol.html", {"patrol": patrol, "buildings": buildings})
+    shares = patrol.share_set.all()
+    money_generated = 0
+    people_generated = 0
+
+    for share in shares:
+        if share.building.is_built():
+            # logger.info(share.building.name, share.building.generate_points)
+            money_generated += (
+                share.building.generate_points
+            )
+            people_generated += (
+                share.building.generate_people
+            )
+    return render(request, "blog/patrol.html", {"patrol": patrol, "buildings": buildings, "money_generated" : money_generated, "people_generated" : people_generated})

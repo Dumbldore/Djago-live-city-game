@@ -64,6 +64,7 @@ def background_generate_resources(patrol_id):
     logger.info(f"{patrol} has now {patrol.money} money, {patrol.people} ppl")
 
 
+
 @receiver(post_save, sender=Patrol2)
 def create_task(sender, instance, created, **kwargs):
     if created:

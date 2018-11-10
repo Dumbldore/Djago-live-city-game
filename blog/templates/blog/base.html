@@ -35,6 +35,10 @@
                             class="badge badge-success">Twoje guldeny: {{ user.patrol2.money | floatformat }}</span>&nbsp;</span>
                     <span class="navbar-text"><span
                             class="badge badge-info">Twoja ludność: {{ user.patrol2.people | floatformat }}</span>&nbsp;</span>
+                    <span class="navbar-text"><span
+                            class="badge badge-success">Guldeny/min: {{ user.patrol2.rates.money | floatformat }}</span>&nbsp;</span>
+                    <span class="navbar-text"><span
+                            class="badge badge-info">Polacy/min: {{ user.patrol2.rates.ppl| floatformat }}</span>&nbsp;</span>
                 </div>
                 <!-- Navbar Right Side -->
                 <div class="navbar-nav">
