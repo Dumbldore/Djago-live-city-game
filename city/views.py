@@ -109,3 +109,9 @@ def stats(request):
     total_ppl = Patrol.objects.aggregate(total_ppl=Sum('people'))["total_ppl"]
 
     return render(request, "blog/stats.html", {"city_built_percent": city_built_percent, "total_ppl": int(total_ppl)})
+
+
+def patrol_detail(request, patrol_id):
+    patrol = Patrol.objects.get(id=patrol_id)
+    buildings = set(s.building for s in patrol.share_set.all())
+    return render(request, "blog/patrol.html", {"patrol": patrol, "buildings": buildings})

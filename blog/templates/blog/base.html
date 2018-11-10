@@ -66,7 +66,7 @@
                 {#    TODO: patrol2 #}
                 <div class="card" style="width: 18rem; margin-bottom: 2em;">
                     <div class="card-header">
-                        {{ user.patrol2.name }}
+                        <a href="{% url 'city-patrol' patrol_id=user.patrol2.id %}">{{ user.patrol2.name }}</a>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">{{ user.patrol2.money | floatformat }} guldeny</li>
@@ -77,20 +77,25 @@
 
             {% block content %}{% endblock %}
         </div>
-        <!-- <div class="col-md-4">
-           <div class="content-section">
-             <h3>Our Sidebar</h3>
-             <p class='text-muted'>You can put any information here you'd like.
-               <ul class="list-group">
-                 <li class="list-group-item list-group-item-light">Latest Posts</li>
-                 <li class="list-group-item list-group-item-light">Announcements</li>
-                 <li class="list-group-item list-group-item-light">Calendars</li>
-                 <li class="list-group-item list-group-item-light">etc</li>
-               </ul>
-             </p>
-           </div>
-         </div>-->
+        {#        <div class="col-md-4">#}
+        {#           <div class="content-section">#}
+        {#             <h3>Our Sidebar</h3>#}
+        {#             <p class='text-muted'>You can put any information here you'd like.#}
+        {#               <ul class="list-group">#}
+        {#                 <li class="list-group-item list-group-item-light">Latest Posts</li>#}
+        {#                 <li class="list-group-item list-group-item-light">Announcements</li>#}
+        {#                 <li class="list-group-item list-group-item-light">Calendars</li>#}
+        {#                 <li class="list-group-item list-group-item-light">etc</li>#}
+        {#               </ul>#}
+        {#             </p>#}
+        {#           </div>#}
+        {#         </div>#}
     </div>
+    <br><br>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-text" href="http://rspg.gdansk.zhp.pl/">RŚPG</a>
+        <span class="navbar-text">Made with ❤️ by Mikołaj & Norbert</span>
+    </nav>
 </main>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
