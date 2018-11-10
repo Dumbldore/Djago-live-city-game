@@ -33,8 +33,8 @@ https://cdn.theatlantic.com/assets/media/img/photo/2013/04/syria-in-ruins/s02_RT
                             <li class="list-group-item">generuje {{ building.generate_people }} ludności</li>
                             <li class="list-group-item">posiadacze <a
                                     href="{% url 'city-building' building_id=building.id %}">({{ progress.shares }}/{{ progress.max_shares }})</a>
-                                {% for patrol in progress.shareholders %}
-                                    {{ patrol }}
+                                {% for patrol in shareholders %}
+                                    <a href="{% url "city-patrol" patrol_id=patrol.id %}" >{{ patrol.name }}</a>
                                 {% endfor %}
                             </li>
                         </ul>
