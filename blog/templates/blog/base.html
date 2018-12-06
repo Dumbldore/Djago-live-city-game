@@ -65,7 +65,8 @@
                     </div>
                 {% endfor %}
             {% endif %}
-                                                    {% if request.user.is_authenticated %}
+
+    {% if request.user.is_authenticated %}
 
             {% block stats %}
 
@@ -83,7 +84,8 @@
                 </div>
 
             {% endblock %}
-                                                    {% endif %}
+            {% endif %}
+
 
             {% block content %}{% endblock %}
         </div>
